@@ -1,0 +1,9 @@
+.container,
+.search-results {
+  padding: 0;
+}
+
+.search-results > li {
+  bottom: 1px;
+  border-bottom: 1px solid #eee;
+}

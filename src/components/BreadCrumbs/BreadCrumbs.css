@@ -1,0 +1,30 @@
+  
+.breadcrumb-container {
+  height: 100% !important;
+  justify-content: center;
+  align-items: center;
+  margin-left: 22%;
+}
+
+.breadcrumb {
+  padding: 0;
+  margin: 16px 0;
+  font-size: 14px;
+  color: #666666;
+  display: -webkit-box;
+  background-color: unset;
+}
+.breadcrumb-item .breadcrumb-item::before {
+  content: "> ";
+}
+.breadcrumb .breadcrumb-item:last-child {
+  font-weight: bold;
+  margin-left: 20px;
+}
+
+@media (max-width: 576px) {
+  .breadcrumb {
+      display: flex;
+      padding: 0 0 0 5px;
+  }
+}
