@@ -19,6 +19,7 @@ function getItemsByQuery(query = '') {
     const promise = axios.get(API_ENDPOINT.concat(RESOURCES.SEARCH, query));
     return promise.then((response) => response.data);
 }
+
 function getItemById(id = '') {
     const promise = axios.get(API_ENDPOINT.concat(RESOURCES.ITEM, id));
     return promise.then((response) => response.data);
