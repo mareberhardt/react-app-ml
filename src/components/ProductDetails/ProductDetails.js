@@ -16,68 +16,36 @@ const ProductDetails = (props) => {
     return <ProductNotFoundMessage />;
   }
 
-  // Set page tittle
-  if (typeof document !== 'undefined') {
-    const customTittle = `${props.product.title} - 
-      ${props.product.price.amount} in Mercado Libre`;
-    document.title = customTittle !== document.title ? customTittle : document.title;
-  }
-
-  // Format Description (Maybe this should be doned on the API)
   const description = props.product.description.split('\n').map((item, key) => {
     return (_.isString(item) ? !!_.trim(item) : _.isEmpty(item))
       ? <span key={key}>{item}<br /></span> : <br key={key} />;
   });
 
-  return (<div className='container product-container'>
-    <div className='row'>
-      <div className='col'>
-        <div className='product-details'>
-          <div className='product-gallery'>
-            <img src={props.product.picture} alt='Product' />
-          </div>
-        </div>
-      </div>
-      <div className='col-3'>
-        <div className='product-information'>
-          <div className='product-status'>
-            {props.product.condition}{props.product.sold_quantity !== 0
-            ? ` - ${props.product.sold_quantity} selled`
-            : ''}
-          </div>
-          <h1 className='product-title'>
-            {props.product.title}
-          </h1>
-          <div className='product-price'>
-            {props.product.price.amount}
-          </div>
-          <div className='product-purchase'>
-            <a href={props.product.permalink}>
-              <button
-                title={`Compare ${props.product.title}`}
-                className='btn'>
-                { 'Compare' }
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div className='row'>
-      <div className='col-9'>
-        <div className='product-details'>
-          <div className='product-descripcion'>
-            <div className='product-descripcion-title'>
-              Product Description
-            </div>
-            <p className='product-descripcion-text'>
-              {description}
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>);
-};
+
+  let productDOM = (<section></section>);
+
+    const productInfo = (
+        <section className="product-details">
+            <article className="product-details-container">
+                <img alt={props.product.title} src={props.product.picture} className="product-details-image" />
+                <div className="product-details-footer">
+                    <h1 className="product-details-footer-title">Product's Description</h1>
+                    <p className="product-details-footer-description">{description ||
+                      `${props.product.title} There is no description for this product`}</p>
+                </div>
+            </article>
+            <aside className="product-details-header">
+                <h6 className="product-details-header-condition-sold product-details-header-condition-sold-capitalized">{props.product.condition} - {props.product.sold_quantity} sold</h6>
+                <h1 className="product-details-header-title product-details-header-title-capitalized">{props.product.title}</h1>
+                <h4 className="product-details-header-price">$ {Number(props.product.price.amount).toLocaleString('es')}</h4>
+                <button type="button" className="product-details-header-btn-buy">Buy</button>
+            </aside>
+        </section>
+    );
+    if (props.product.id) {
+        productDOM = productInfo;
+    }
+    return productDOM;
+}
 
 export default ProductDetails;
