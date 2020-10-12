@@ -1,27 +1,27 @@
 import axios from 'axios';
 
 const urlItemById = 'https://api.mercadolibre.com/items';
+const apiUrl = 'https://api.mercadolibre.com/';
 
 /* 
  * Item https://api.mercadolibre.com/items/ID
  */
 function ItemById(id, res) {
-  const formattedResponse = {};
   let params = '';
   if (id) {
     params = `/${id}`;
   }
   const url = urlItemById.concat(params);
-
-  axios.get(url)
-    .then((response) => {
-      formattedResponse.author = getAuthor();
-      formattedResponse.item = setItemValues(response.data);
-      res.json(formattedResponse);
-    })
-    .catch((err) => {
-      res.send(err);
+  axios.get(url).then((response) => {
+    axios.get(`${url}/description`).then((description) => {
+      axios.get(`${apiUrl}categories/${response.data.category_id}`).then((category) => {
+        res.json(formatResponse(response.data, description.data, category.data));
+      });
     });
+  })
+  .catch((err) => {
+    res.send(err);
+  });
 }
 
 /**
@@ -38,7 +38,21 @@ function getAuthor() {
  * @param description
  * @returns {{}}
  */
-function setItemValues(product) {
+function formatResponse(product, description, category) {
+  const formattedResponse = {};
+  formattedResponse.author = getAuthor();
+  formattedResponse.item = getItemValues(product, description, category);
+
+  return formattedResponse;
+}
+
+/**
+ * Set Item values
+ * @param product
+ * @param description
+ * @returns {{}}
+ */
+function getItemValues(product, description, category) {
   const formattedProduct = {};
 
   formattedProduct.id = (product.id);
@@ -54,10 +68,12 @@ function setItemValues(product) {
   formattedProduct.condition = product.condition === 'new' ? 'New' : 'Used';
   formattedProduct.free_shipping = product.shipping.free_shipping;
   formattedProduct.sold_quantity = product.sold_quantity;
-  formattedProduct.description = product.descriptions[0].id;
-
-  // This is out of the scope of the test.
-  formattedProduct.permalink = product.permalink;
+  formattedProduct.description = description.plain_text;
+  formattedProduct.categories = category.path_from_root.map(
+    (category) => {
+      return category.name;
+    }
+  );
 
   return formattedProduct;
 }

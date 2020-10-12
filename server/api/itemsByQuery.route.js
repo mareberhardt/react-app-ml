@@ -12,7 +12,6 @@ function ItemsByQuery(conf, res) {
     params = `?q=${conf}`;
   }
   const url = urlItemsSearch.concat(params);
-  process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
   axios.get(`${url}&limit=${resultsQty}`)
     .then((response) => {
       res.json(formatResponse(response.data));
