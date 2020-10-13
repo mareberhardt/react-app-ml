@@ -6,23 +6,23 @@ const API_URI = process.env.BACKEND_API_URI || 'api';
 const API_ENDPOINT = `http://${API_IP}${API_PORT ? ':' + API_PORT : ''}/${API_URI}/`;
 
 const RESOURCES = {
-    SEARCH: 'items?q=',
-    ITEM: 'items/'
+  SEARCH: 'items?q=',
+  ITEM: 'items/'
 };
 
 const API = {
-    getItemsByQuery,
-    getItemById
+  getItemsByQuery,
+  getItemById
 };
 
 function getItemsByQuery(query = '') {
-    const promise = axios.get(API_ENDPOINT.concat(RESOURCES.SEARCH, query));
-    return promise.then((response) => response.data);
+  const promise = axios.get(API_ENDPOINT.concat(RESOURCES.SEARCH, query));
+  return promise.then((response) => response.data);
 }
 
 function getItemById(id = '') {
-    const promise = axios.get(API_ENDPOINT.concat(RESOURCES.ITEM, id));
-    return promise.then((response) => response.data);
+  const promise = axios.get(API_ENDPOINT.concat(RESOURCES.ITEM, id));
+  return promise.then((response) => response.data);
 }
 
 export default API;

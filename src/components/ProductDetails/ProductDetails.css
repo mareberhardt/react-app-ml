@@ -1,11 +1,14 @@
 .product-details {
   display: flex;
   justify-content: center;
-  width: 60%;
   background-color: white;
-  margin-bottom: 5%;
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
   padding-top: 32px;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .product-details-container {
@@ -87,4 +90,10 @@
   font-size: 16px;
   word-wrap: break-word;
   line-height: 135%;
+}
+
+@media (min-width: 1200px) {
+  .product-details {
+      max-width: 1140px;
+  }
 }

@@ -1,9 +1,27 @@
+.justify-content-center {
+  justify-content: center !important;
+}
+
 .container,
 .search-results {
   padding: 0;
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.list-group {
+  display: flex;
+  flex-direction: column;
 }
 
 .search-results > li {
   bottom: 1px;
   border-bottom: 1px solid #eee;
+}
+
+@media (min-width: 1200px) {
+  .container {
+      max-width: 1140px;
+  }
 }
